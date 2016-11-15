@@ -28,8 +28,10 @@ public class getCoordinates {
         BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
         String responseLine, response = "";
         while((responseLine = br.readLine()) != null) {
-            response += responseLine;
-            //System.out.println(responseLine);
+            if(responseLine.length()>4) {
+                response += responseLine;
+                //System.out.println(responseLine);
+            }
         }
         br.close();
 
@@ -79,10 +81,12 @@ public class getCoordinates {
                         String pointsCoordToStr = pointsCoordinates.toString();
                         String[] latAndLong = pointsCoordToStr.split(",");
 
+                        final double kx = 0.000176;
+                        final double ky = 4.609524107599250;
                         double x = Double.parseDouble(latAndLong[0].substring(1));
                         double y = Double.parseDouble(latAndLong[1].substring(0, latAndLong[1].length() - 1));
-                        double lat = (180 / Math.PI) * (y / 6378137);
-                        double lon = (180 / Math.PI) * (x / 6378137);
+                        double lat = (180 / Math.PI) * (y / 6378137) - ky;
+                        double lon = (180 / Math.PI) * (x / 6378137) + kx;
 
                         System.out.println("     Точка" + pointCounter + " (Latitude: " + lat + "  Longitude: " + lon + ")");
 
